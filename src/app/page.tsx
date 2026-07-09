@@ -72,7 +72,7 @@ export default function Home() {
   const [authError, setAuthError] = useState('');
   const [authSuccessMessage, setAuthSuccessMessage] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
-  const [redirectAfterAuth, setRedirectAfterAuth] = useState<'add' | 'edit' | 'browse'>('browse');
+  const [redirectAfterAuth, setRedirectAfterAuth] = useState<'add' | 'edit' | 'browse' | 'details'>('browse');
 
   // Drag & Drop / Upload state
   const [isDragging, setIsDragging] = useState(false);
