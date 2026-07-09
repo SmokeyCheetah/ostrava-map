@@ -727,7 +727,8 @@ export default function Home() {
       <aside
         className={`
           fixed md:absolute
-          inset-0 md:inset-auto
+          top-0 left-0 right-0 bottom-14
+          md:inset-auto
           md:top-4 md:bottom-4 md:left-4
           z-[10] md:z-[9]
           md:w-[400px]
@@ -749,7 +750,7 @@ export default function Home() {
               : 'md:translate-x-0'
           }
         `}
-        style={{ overflow: 'visible', paddingBottom: 'env(safe-area-inset-bottom, 56px)' }}
+        style={{ overflow: 'visible' }}
       >
         <div className="w-full h-full flex flex-col overflow-hidden md:rounded-2xl">
           
