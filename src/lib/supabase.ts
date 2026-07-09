@@ -32,8 +32,8 @@ export interface Review {
   location_id: string;
   rating: number;
   comment: string | null;
-  admin_reply: string | null;
-  admin_reply_at: string | null;
+  admin_reply?: string | null;
+  admin_reply_at?: string | null;
   created_at: string;
 }
 
