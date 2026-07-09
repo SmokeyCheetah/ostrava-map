@@ -1148,27 +1148,16 @@ export default function Home() {
                           </span>
                         </div>
 
-                        {/* Navigation buttons */}
-                        <div className="flex gap-2 mt-3">
-                          <a
-                            href={`https://www.google.com/maps/dir/?api=1&destination=${selectedLocation.latitude},${selectedLocation.longitude}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold text-white transition shadow-sm hover:opacity-90 active:scale-95"
-                            style={{ background: 'linear-gradient(135deg, #4285F4, #34A853)' }}
-                          >
-                            <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                            Google Mapy
-                          </a>
+                        {/* Navigation button */}
+                        <div className="flex mt-3">
                           <a
                             href={`https://mapy.cz/zakladni?x=${selectedLocation.longitude}&y=${selectedLocation.latitude}&z=17&source=coor&id=${selectedLocation.longitude},${selectedLocation.latitude}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-bold text-white transition shadow-sm hover:opacity-90 active:scale-95"
-                            style={{ background: 'linear-gradient(135deg, #e63946, #c1121f)' }}
+                            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-bold border border-[var(--ostrava-turquoise)] text-[var(--ostrava-turquoise)] bg-[var(--ostrava-turquoise)]/10 hover:bg-[var(--ostrava-turquoise)]/20 transition active:scale-95 shadow-sm"
                           >
-                            <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                            Mapy.cz
+                            <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                            Navigovat
                           </a>
                         </div>
 
