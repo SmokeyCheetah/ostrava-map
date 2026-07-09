@@ -54,7 +54,7 @@ export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState<LocationWithReviews | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [pendingClick, setPendingClick] = useState<{ lat: number; lng: number } | null>(null);
-  const [sidebarState, setSidebarState] = useState<'browse' | 'details' | 'add' | 'edit'>('browse');
+  const [sidebarState, setSidebarState] = useState<'browse' | 'details' | 'add' | 'edit' | 'auth'>('browse');
   
   // Carousel active photo index state
   const [activeImageIndex, setActiveImageIndex] = useState(0);
