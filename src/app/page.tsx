@@ -55,6 +55,8 @@ export default function Home() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [pendingClick, setPendingClick] = useState<{ lat: number; lng: number } | null>(null);
   const [sidebarState, setSidebarState] = useState<'browse' | 'details' | 'add' | 'edit' | 'auth'>('browse');
+  // Mobile view toggle: 'map' shows map fullscreen, 'list' shows the sidebar panel fullscreen
+  const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
   
   // Carousel active photo index state
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -314,6 +316,8 @@ export default function Home() {
     setSelectedLocation(freshLoc);
     setPendingClick(null);
     setSidebarState('details');
+    // On mobile, switch to list view to show the details panel
+    setMobileView('list');
   };
 
   // Upload all new files to Supabase Storage and collect their public URLs
@@ -676,10 +680,10 @@ export default function Home() {
   const isAdmin = !!(user && (user.app_metadata?.role === 'admin' || user.user_metadata?.role === 'admin'));
 
   return (
-    <div className="relative w-screen h-screen flex flex-col md:flex-row overflow-hidden bg-background text-foreground transition-colors duration-300">
+    <div className="relative w-screen flex flex-col md:flex-row overflow-hidden bg-background text-foreground transition-colors duration-300" style={{ height: '100dvh' }}>
       
       {/* Main Map Background */}
-      <div className="w-full h-full absolute inset-0 z-0">
+      <div className="w-full h-full absolute inset-0 z-0 md:pb-0 pb-14">
         <MapLoader
           locations={filteredLocations}
           onMapClick={handleMapClick}
@@ -690,16 +694,64 @@ export default function Home() {
         />
       </div>
 
+      {/* Mobile Bottom Tab Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-[20] flex items-center justify-around bg-[var(--card-bg)] border-t border-[var(--card-border)] backdrop-blur-md shadow-2xl" style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}>
+        <button
+          onClick={() => setMobileView('map')}
+          className={`flex flex-col items-center gap-1 py-3 px-8 text-xs font-semibold transition cursor-pointer ${
+            mobileView === 'map'
+              ? 'text-[var(--ostrava-turquoise)]'
+              : 'text-[var(--foreground)]/50'
+          }`}
+        >
+          <MapPin className="w-5 h-5" />
+          Mapa
+        </button>
+        <button
+          onClick={() => setMobileView('list')}
+          className={`flex flex-col items-center gap-1 py-3 px-8 text-xs font-semibold transition cursor-pointer relative ${
+            mobileView === 'list'
+              ? 'text-[var(--ostrava-turquoise)]'
+              : 'text-[var(--foreground)]/50'
+          }`}
+        >
+          <Search className="w-5 h-5" />
+          Seznam
+          {filteredLocations.length > 0 && mobileView === 'map' && (
+            <span className="absolute top-2 right-6 w-4 h-4 rounded-full bg-[var(--ostrava-turquoise)] text-white text-[9px] flex items-center justify-center font-bold">{filteredLocations.length}</span>
+          )}
+        </button>
+      </div>
+
       {/* Sidebar Panel (Floating Ostrava Glass Panel) */}
       <aside
-        className={`absolute bottom-4 left-4 right-4 md:right-auto md:top-4 md:bottom-4 z-[9] w-auto md:w-[400px] max-h-[45vh] md:max-h-none flex flex-col glass-panel rounded-2xl shadow-2xl pointer-events-auto transition-transform duration-300 ${
-          isSidebarCollapsed
-            ? '-translate-x-[calc(100%+16px)] md:-translate-x-[416px]'
-            : 'translate-x-0'
-        }`}
-        style={{ overflow: 'visible' }}
+        className={`
+          fixed md:absolute
+          inset-0 md:inset-auto
+          md:top-4 md:bottom-4 md:left-4
+          z-[10] md:z-[9]
+          md:w-[400px]
+          flex flex-col
+          glass-panel md:rounded-2xl
+          shadow-2xl
+          pointer-events-auto
+          transition-all duration-300
+          ${
+            /* Mobile: show/hide based on mobileView */
+            mobileView === 'list'
+              ? 'translate-y-0'
+              : 'translate-y-full md:translate-y-0'
+          }
+          ${
+            /* Desktop: collapse sideways */
+            isSidebarCollapsed
+              ? 'md:-translate-x-[416px]'
+              : 'md:translate-x-0'
+          }
+        `}
+        style={{ overflow: 'visible', paddingBottom: 'env(safe-area-inset-bottom, 56px)' }}
       >
-        <div className="w-full h-full flex flex-col overflow-hidden rounded-2xl">
+        <div className="w-full h-full flex flex-col overflow-hidden md:rounded-2xl">
           
           {/* Header section with OFFICIAL OSTRAVA!!! colors */}
           <div className="p-4 border-b border-[var(--card-border)] flex items-center justify-between bg-[var(--foreground)]/5 shrink-0">
@@ -841,7 +893,7 @@ export default function Home() {
               <>
                 {/* BROWSE STATE */}
                 {sidebarState === 'browse' && (
-                  <div className="flex flex-col flex-1 p-4 gap-4">
+                  <div className="flex flex-col flex-1 p-3 md:p-4 gap-3 md:gap-4">
                     
                     {/* Search input */}
                     <div className="relative">
@@ -891,7 +943,7 @@ export default function Home() {
                     </div>
 
                     {/* Location list */}
-                    <div className="flex-1 space-y-3 min-h-0">
+                    <div className="flex-1 space-y-2 md:space-y-3 min-h-0 overflow-y-auto">
                       {loading ? (
                         <div className="flex flex-col items-center justify-center py-12 gap-3 opacity-60">
                           <div className="w-8 h-8 border-4 border-[var(--ostrava-turquoise)] border-t-transparent rounded-full animate-spin"></div>
