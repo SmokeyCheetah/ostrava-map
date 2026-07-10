@@ -1988,14 +1988,16 @@ export default function Home() {
       )}
 
       {/* Floating Add Location Button on mobile map */}
-      {user && dbConfigured && mobileView === 'map' && sidebarState === 'browse' && !selectedLocation && (
+      {user && dbConfigured && mobileView === 'map' && !showMobileDetails && (
         <button
           onClick={() => {
             setSidebarState('add');
             setPendingClick(null);
             setShowMobileDetails(true);
           }}
-          className="md:hidden fixed bottom-[84px] left-4 z-[9] w-12 h-12 bg-[var(--ostrava-turquoise)] hover:bg-[var(--primary-hover)] text-white rounded-full shadow-2xl flex items-center justify-center cursor-pointer transition active:scale-95 border border-white/20"
+          className={`md:hidden fixed left-4 z-[9] w-12 h-12 bg-[var(--ostrava-turquoise)] hover:bg-[var(--primary-hover)] text-white rounded-full shadow-2xl flex items-center justify-center cursor-pointer transition-all duration-300 active:scale-95 border border-white/20 ${
+            selectedLocation ? 'bottom-[160px]' : 'bottom-[84px]'
+          }`}
           title="Přidat nové místo"
         >
           <Plus className="w-6 h-6" />
