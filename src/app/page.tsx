@@ -302,7 +302,6 @@ export default function Home() {
   const handleMapClick = (lat: number, lng: number) => {
     if (!dbConfigured) return;
     if (!user) {
-      alert('Pro přidání nového místa se musíte nejprve přihlásit.');
       setRedirectAfterAuth('browse');
       setAuthError('');
       setAuthSuccessMessage('');
