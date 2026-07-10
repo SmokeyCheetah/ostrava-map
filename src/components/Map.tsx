@@ -54,10 +54,15 @@ function MapController({ selectedLocation }: { selectedLocation?: LocationWithRe
   return null;
 }
 
-// Inner helper component to listen for double-click events on the map
+// Inner helper component to listen for double-click and long-press events on the map
 function MapEvents({ onMapClick }: { onMapClick?: (lat: number, lng: number) => void }) {
   useMapEvents({
     dblclick(e) {
+      if (onMapClick) {
+        onMapClick(e.latlng.lat, e.latlng.lng);
+      }
+    },
+    contextmenu(e) {
       if (onMapClick) {
         onMapClick(e.latlng.lat, e.latlng.lng);
       }

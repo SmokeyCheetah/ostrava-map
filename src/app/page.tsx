@@ -1022,15 +1022,16 @@ export default function Home() {
                           onClick={() => {
                             setSidebarState('add');
                             setPendingClick(null);
+                            setShowMobileDetails(true);
                           }}
                           className="w-full py-2.5 bg-[var(--ostrava-turquoise)] hover:bg-[var(--primary-hover)] text-white font-bold rounded-xl text-sm transition shadow-md flex items-center justify-center gap-2 cursor-pointer"
                         >
                           <Plus className="w-4 h-4" />
                           Přidat nové místo
                         </button>
-                        <p className="text-[10px] opacity-65 text-center mt-2 flex items-center justify-center gap-1">
-                          <Info className="w-3 h-3 text-[var(--ostrava-turquoise)]" />
-                          <span><span className="font-bold">Dvojklikněte</span> kamkoliv do mapy pro přidání špendlíku.</span>
+                        <p className="text-[10px] opacity-65 text-center mt-2 flex items-center justify-center gap-1 px-1">
+                          <Info className="w-3 h-3 text-[var(--ostrava-turquoise)] shrink-0" />
+                          <span>Podržte prst na mapě (dlouhý stisk) nebo poklepejte pro přidání špendlíku.</span>
                         </p>
                       </div>
                     )}
@@ -1426,7 +1427,7 @@ export default function Home() {
                           Lat: {pendingClick.lat.toFixed(6)}, Lng: {pendingClick.lng.toFixed(6)}
                         </p>
                       ) : (
-                        <p><span className="font-bold">Dvojklikněte</span> kamkoli do mapy pro výběr souřadnic!</p>
+                        <p>Podržte prst na mapě (dlouhý stisk) nebo poklepejte pro výběr souřadnic!</p>
                       )}
                     </div>
 
@@ -1984,6 +1985,21 @@ export default function Home() {
             </button>
           ))}
         </div>
+      )}
+
+      {/* Floating Add Location Button on mobile map */}
+      {user && dbConfigured && mobileView === 'map' && sidebarState === 'browse' && !selectedLocation && (
+        <button
+          onClick={() => {
+            setSidebarState('add');
+            setPendingClick(null);
+            setShowMobileDetails(true);
+          }}
+          className="md:hidden fixed bottom-[84px] right-4 z-[9] w-12 h-12 bg-[var(--ostrava-turquoise)] hover:bg-[var(--primary-hover)] text-white rounded-full shadow-2xl flex items-center justify-center cursor-pointer transition active:scale-95 border border-white/20"
+          title="Přidat nové místo"
+        >
+          <Plus className="w-6 h-6" />
+        </button>
       )}
 
       {/* Mobile Floating Location Preview Card */}
