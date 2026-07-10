@@ -1031,7 +1031,10 @@ export default function Home() {
                         </button>
                         <p className="text-[10px] opacity-65 text-center mt-2 flex items-center justify-center gap-1 px-1">
                           <Info className="w-3 h-3 text-[var(--ostrava-turquoise)] shrink-0" />
-                          <span>Podržte prst na mapě (dlouhý stisk) nebo poklepejte pro přidání špendlíku.</span>
+                          <span>
+                            <span className="hidden md:inline"><span className="font-bold">Dvojklikněte</span> kamkoliv do mapy pro přidání špendlíku.</span>
+                            <span className="inline md:hidden">Podržte prst na mapě (dlouhý stisk) nebo poklepejte pro přidání špendlíku.</span>
+                          </span>
                         </p>
                       </div>
                     )}
@@ -1427,7 +1430,10 @@ export default function Home() {
                           Lat: {pendingClick.lat.toFixed(6)}, Lng: {pendingClick.lng.toFixed(6)}
                         </p>
                       ) : (
-                        <p>Podržte prst na mapě (dlouhý stisk) nebo poklepejte pro výběr souřadnic!</p>
+                        <p>
+                          <span className="hidden md:inline"><span className="font-bold">Dvojklikněte</span> kamkoli do mapy pro výběr souřadnic!</span>
+                          <span className="inline md:hidden">Podržte prst na mapě (dlouhý stisk) nebo poklepejte pro výběr souřadnic!</span>
+                        </p>
                       )}
                     </div>
 
