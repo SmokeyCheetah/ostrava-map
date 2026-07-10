@@ -307,6 +307,7 @@ export default function Home() {
       setAuthSuccessMessage('');
       setSidebarState('auth');
       setShowMobileDetails(true);
+      setIsSidebarCollapsed(false); // Expand sidebar on desktop
       return;
     }
     
@@ -317,6 +318,7 @@ export default function Home() {
     setUrlInput('');
     setSidebarState('add');
     setShowMobileDetails(true); // Automatically slide up the form on mobile
+    setIsSidebarCollapsed(false); // Expand sidebar on desktop
   };
 
   // Select a location and open details
@@ -326,6 +328,7 @@ export default function Home() {
     setPendingClick(null);
     setSidebarState('details');
     setShowMobileDetails(showMobileFullDetails);
+    setIsSidebarCollapsed(false); // Expand sidebar on desktop when selecting location
   };
 
   // Upload all new files to Supabase Storage and collect their public URLs
