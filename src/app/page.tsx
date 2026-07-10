@@ -1995,9 +1995,7 @@ export default function Home() {
             setPendingClick(null);
             setShowMobileDetails(true);
           }}
-          className={`md:hidden fixed left-4 z-[9] w-12 h-12 bg-[var(--ostrava-turquoise)] hover:bg-[var(--primary-hover)] text-white rounded-full shadow-2xl flex items-center justify-center cursor-pointer transition-all duration-300 active:scale-95 border border-white/20 ${
-            selectedLocation ? 'bottom-[160px]' : 'bottom-[84px]'
-          }`}
+          className="md:hidden fixed bottom-[84px] left-4 z-[9] w-12 h-12 bg-[var(--ostrava-turquoise)] hover:bg-[var(--primary-hover)] text-white rounded-full shadow-2xl flex items-center justify-center cursor-pointer transition active:scale-95 border border-white/20"
           title="Přidat nové místo"
         >
           <Plus className="w-6 h-6" />
