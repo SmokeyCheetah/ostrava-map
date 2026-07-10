@@ -57,6 +57,7 @@ export default function Home() {
   const [sidebarState, setSidebarState] = useState<'browse' | 'details' | 'add' | 'edit' | 'auth'>('browse');
   // Mobile view toggle: 'map' shows map fullscreen, 'list' shows the sidebar panel fullscreen
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
+  const [showMobileDetails, setShowMobileDetails] = useState(false);
   
   // Carousel active photo index state
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -308,14 +309,16 @@ export default function Home() {
     setImageItems([]);
     setUrlInput('');
     setSidebarState('add');
+    setShowMobileDetails(true); // Automatically slide up the form on mobile
   };
 
   // Select a location and open details
-  const handleSelectLocation = (loc: LocationWithReviews) => {
+  const handleSelectLocation = (loc: LocationWithReviews, showMobileFullDetails = false) => {
     const freshLoc = locations.find((l) => l.id === loc.id) || loc;
     setSelectedLocation(freshLoc);
     setPendingClick(null);
     setSidebarState('details');
+    setShowMobileDetails(showMobileFullDetails);
   };
 
   // Upload all new files to Supabase Storage and collect their public URLs
@@ -504,6 +507,7 @@ export default function Home() {
         setLocations(allLocs);
         setSelectedLocation(null);
         setSidebarState('browse');
+        setShowMobileDetails(false);
       }
     } catch (err) {
       console.error('Error deleting location:', err);
@@ -668,6 +672,7 @@ export default function Home() {
   const handleCancelAdd = () => {
     setPendingClick(null);
     setSidebarState('browse');
+    setShowMobileDetails(false);
     setNewLocName('');
     setNewLocDesc('');
     revokeImagePreviews(imageItems);
@@ -706,7 +711,12 @@ export default function Home() {
           Mapa
         </button>
         <button
-          onClick={() => setMobileView('list')}
+          onClick={() => {
+            setMobileView('list');
+            setSidebarState('browse');
+            setSelectedLocation(null);
+            setShowMobileDetails(false);
+          }}
           className={`flex flex-col items-center gap-1 py-3 px-8 text-xs font-semibold transition cursor-pointer relative ${
             mobileView === 'list'
               ? 'text-[var(--ostrava-turquoise)]'
@@ -736,8 +746,8 @@ export default function Home() {
           pointer-events-auto
           transition-all duration-300
           ${
-            /* Mobile: show/hide based on mobileView */
-            mobileView === 'list'
+            /* Mobile: show/hide based on mobileView or showMobileDetails */
+            (mobileView === 'list' || showMobileDetails)
               ? 'translate-y-0'
               : 'translate-y-full md:translate-y-0'
           }
@@ -956,7 +966,7 @@ export default function Home() {
                         filteredLocations.map((loc) => (
                           <div
                             key={loc.id}
-                            onClick={() => handleSelectLocation(loc)}
+                            onClick={() => handleSelectLocation(loc, true)}
                             className="group p-3.5 rounded-xl border border-[var(--card-border)] bg-[var(--foreground)]/2 hover:border-[var(--ostrava-turquoise)] hover:bg-[var(--foreground)]/5 cursor-pointer transition duration-200 flex gap-3"
                           >
                             {/* Thumbnail (renders first image) */}
@@ -1038,6 +1048,7 @@ export default function Home() {
                         onClick={() => {
                           setSelectedLocation(null);
                           setSidebarState('browse');
+                          setShowMobileDetails(false);
                         }}
                         className="flex items-center gap-2 text-xs font-semibold text-[var(--foreground)]/80 hover:text-[var(--ostrava-turquoise)] transition cursor-pointer"
                       >
@@ -1976,9 +1987,9 @@ export default function Home() {
       )}
 
       {/* Mobile Floating Location Preview Card */}
-      {mobileView === 'map' && selectedLocation && (
+      {mobileView === 'map' && selectedLocation && !showMobileDetails && (
         <div 
-          onClick={() => setMobileView('list')}
+          onClick={() => setShowMobileDetails(true)}
           className="md:hidden fixed bottom-[72px] left-4 right-4 z-[9] p-3.5 rounded-2xl glass-panel shadow-2xl flex gap-3 cursor-pointer animate-in slide-in-from-bottom duration-300 border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground)]"
         >
           {/* Thumbnail */}
