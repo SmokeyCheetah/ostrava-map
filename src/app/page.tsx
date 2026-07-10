@@ -39,6 +39,8 @@ import {
   LogOut,
   User,
   CornerDownRight,
+  CheckCircle,
+  AlertCircle,
 } from 'lucide-react';
 
 interface ImageItem {
@@ -66,6 +68,22 @@ export default function Home() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [dbConfigured, setDbConfigured] = useState(true);
+
+  // Custom Toast State
+  const [toast, setToast] = useState<{ message: string; type: 'info' | 'error' | 'success' } | null>(null);
+
+  const showToast = (message: string, type: 'info' | 'error' | 'success' = 'info') => {
+    setToast({ message, type });
+  };
+
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => {
+        setToast(null);
+      }, 3500);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   // User Auth states
   const [user, setUser] = useState<any>(null);
@@ -302,6 +320,7 @@ export default function Home() {
   const handleMapClick = (lat: number, lng: number) => {
     if (!dbConfigured) return;
     if (!user) {
+      showToast('Pro přidání nového místa se musíte nejprve přihlásit.', 'info');
       setRedirectAfterAuth('browse');
       setAuthError('');
       setAuthSuccessMessage('');
@@ -2151,9 +2170,18 @@ export default function Home() {
             </div>
           </div>
         </div>
+      )}      {/* Custom Glassmorphic Toast Notification */}
+      {toast && (
+        <div 
+          className="fixed top-6 left-1/2 -translate-x-1/2 z-[99999] px-4 py-3 rounded-2xl glass-panel shadow-2xl flex items-center gap-2.5 animate-in fade-in slide-in-from-top-4 duration-300 border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground)]"
+          style={{ maxWidth: '90vw' }}
+        >
+          {toast.type === 'info' && <Info className="w-4.5 h-4.5 text-[var(--ostrava-turquoise)] shrink-0 animate-pulse" />}
+          {toast.type === 'success' && <CheckCircle className="w-4.5 h-4.5 text-emerald-500 shrink-0" />}
+          {toast.type === 'error' && <AlertCircle className="w-4.5 h-4.5 text-rose-500 shrink-0 animate-bounce" />}
+          <span className="text-xs font-bold tracking-tight">{toast.message}</span>
+        </div>
       )}
-
-
       
     </div>
   );
