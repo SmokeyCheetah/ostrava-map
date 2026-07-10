@@ -316,8 +316,6 @@ export default function Home() {
     setSelectedLocation(freshLoc);
     setPendingClick(null);
     setSidebarState('details');
-    // On mobile, switch to list view to show the details panel
-    setMobileView('list');
   };
 
   // Upload all new files to Supabase Storage and collect their public URLs
@@ -1974,6 +1972,59 @@ export default function Home() {
               {cat}
             </button>
           ))}
+        </div>
+      )}
+
+      {/* Mobile Floating Location Preview Card */}
+      {mobileView === 'map' && selectedLocation && (
+        <div 
+          onClick={() => setMobileView('list')}
+          className="md:hidden fixed bottom-[72px] left-4 right-4 z-[9] p-3.5 rounded-2xl glass-panel shadow-2xl flex gap-3 cursor-pointer animate-in slide-in-from-bottom duration-300 border border-[var(--card-border)] bg-[var(--card-bg)] text-[var(--foreground)]"
+        >
+          {/* Thumbnail */}
+          <div className="w-16 h-16 rounded-xl bg-background overflow-hidden relative shrink-0 border border-[var(--card-border)]">
+            {selectedLocation.image_urls && selectedLocation.image_urls.length > 0 ? (
+              <img
+                src={selectedLocation.image_urls[0]}
+                alt={selectedLocation.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center opacity-40">
+                <Camera className="w-5 h-5" />
+              </div>
+            )}
+          </div>
+
+          {/* Details */}
+          <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+            <div>
+              <h4 className="font-bold text-sm text-[var(--foreground)] truncate pr-6">{selectedLocation.name}</h4>
+              <span className="inline-block text-[9px] bg-[var(--foreground)]/10 text-[var(--foreground)] font-medium px-2 py-0.5 rounded-full mt-0.5">
+                {selectedLocation.category}
+              </span>
+            </div>
+            <div className="flex items-center gap-3 text-xs opacity-90 mt-1">
+              <div className="flex items-center gap-1 text-amber-500">
+                <Star className="w-3.5 h-3.5 fill-amber-500" />
+                <span className="font-semibold">{selectedLocation.average_rating > 0 ? selectedLocation.average_rating : '—'}</span>
+              </div>
+              <div className="text-[var(--foreground)]/60 text-[10px]">
+                {selectedLocation.reviews_count} {selectedLocation.reviews_count === 1 ? 'recenze' : (selectedLocation.reviews_count >= 2 && selectedLocation.reviews_count <= 4 ? 'recenze' : 'recenzí')} • Klepnutím zobrazíte detail
+              </div>
+            </div>
+          </div>
+
+          {/* Close Button */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedLocation(null);
+            }}
+            className="absolute top-2.5 right-2.5 p-1.5 rounded-full bg-[var(--foreground)]/5 hover:bg-[var(--foreground)]/10 text-[var(--foreground)]/60 transition cursor-pointer"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
         </div>
       )}
 

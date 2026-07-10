@@ -193,3 +193,10 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+/* Hide Leaflet popups on mobile to prefer our custom bottom sheet card */
+@media (max-width: 767px) {
+  .leaflet-popup {
+    display: none !important;
+  }
+}
