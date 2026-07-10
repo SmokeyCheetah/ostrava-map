@@ -301,7 +301,15 @@ export default function Home() {
   // Handle map double click
   const handleMapClick = (lat: number, lng: number) => {
     if (!dbConfigured) return;
-    if (!user) return;
+    if (!user) {
+      alert('Pro přidání nového místa se musíte nejprve přihlásit.');
+      setRedirectAfterAuth('browse');
+      setAuthError('');
+      setAuthSuccessMessage('');
+      setSidebarState('auth');
+      setShowMobileDetails(true);
+      return;
+    }
     
     setPendingClick({ lat, lng });
     setSelectedLocation(null);
