@@ -1940,16 +1940,19 @@ export default function Home() {
 
       </aside>
 
-      {/* Floating Category Filter Overlay (on Desktop) */}
+      {/* Floating Category Filter Overlay */}
       {dbConfigured && sidebarState === 'browse' && (
         <div 
-          className={`hidden md:flex absolute top-4 z-[9] items-center gap-1.5 p-1.5 rounded-full bg-[var(--card-bg)] border border-[var(--card-border)] shadow-lg pointer-events-auto transition-all duration-300 ${
-            isSidebarCollapsed ? 'left-16' : 'left-[430px]'
-          }`}
+          className={`absolute top-4 z-[9] items-center gap-1.5 p-1.5 rounded-full bg-[var(--card-bg)] border border-[var(--card-border)] shadow-lg pointer-events-auto transition-all duration-300
+            flex max-w-[calc(100%-32px)] overflow-x-auto scrollbar-none
+            ${isSidebarCollapsed ? 'md:left-16' : 'md:left-[430px]'}
+            left-4 right-4 md:right-auto md:max-w-none md:overflow-x-visible
+            ${mobileView === 'list' ? 'hidden md:flex' : 'flex'}
+          `}
         >
           <button
             onClick={() => setSelectedCategory('Vše')}
-            className={`px-3 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
+            className={`px-3 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1 cursor-pointer shrink-0 ${
               selectedCategory === 'Vše'
                 ? 'bg-[var(--ostrava-turquoise)] text-white shadow-sm'
                 : 'text-[var(--foreground)]/70 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/5'
@@ -1962,7 +1965,7 @@ export default function Home() {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer shrink-0 ${
                 selectedCategory === cat
                   ? 'bg-[var(--ostrava-turquoise)] text-white shadow-sm'
                   : 'text-[var(--foreground)]/70 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/5'
